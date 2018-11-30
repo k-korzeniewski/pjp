@@ -12,3 +12,4 @@ class Window(QWidget):
         self.setWindowTitle("Some title")
 
         self.show()
+
