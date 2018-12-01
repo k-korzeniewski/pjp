@@ -3,10 +3,20 @@ from Service.Image import ImageContext, ImageService
 
 """
     This class is holding all settings and service instances.
+    Services are instances only ones - and re-instance when context are changed
 """
 
 
 class ApplicationContext:
+    # Application:
+
+    link_list = []
+
+
+    #UI
+
+    url_inputbox_default_text = "Paste here links -> each in own line "
+
     # Driver:
     driver_context = DriverContext()
     driver_context.driver_path = "/usr/local/chromedriver/chromedriver-Darwin"
@@ -28,3 +38,9 @@ class ApplicationContext:
         ApplicationContext.image_context = context
         ApplicationContext.image_service = ImageService(image_context=cls.image_context,
                                                         driver=cls.driver)
+
+    @classmethod
+    def update_links(cls, links):
+        cls.link_list.clear()
+        cls.link_list.append(links)
+        print("Link updated")

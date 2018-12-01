@@ -50,17 +50,22 @@ class Menu(QWidget):
 class UrlInputBox(QWidget):
     def __init__(self):
         super().__init__()
+
+        self.text_edit = QPlainTextEdit()
         self.init_ui()
 
     def init_ui(self):
-        text_edit = QPlainTextEdit()
-        text_edit.resize(400, 200)
-        text_edit.insertPlainText("Here you can paste links.")
-
+        self.text_edit.resize(400, 200)
+        self.text_edit.insertPlainText("Here you can paste links.")
+        self.text_edit.textChanged.connect(self.text_change_handle)
         layout = QHBoxLayout()
-        layout.addWidget(text_edit)
+        layout.addWidget(self.text_edit)
 
         self.setLayout(layout)
+
+    def text_change_handle(self):
+        links = self.text_edit.toPlainText()
+        ApplicationContext.update_links(links=links)
 
 
 # -----------------------------------------------------------------------------------
