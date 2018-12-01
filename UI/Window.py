@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QVBoxLayout, QWidget
-from UI.Menu import Menu
-from UI.UrlInputBox import UrlInputBox
+from UI.Components import Menu, UrlInputBox
 
 
 class Window(QMainWindow):

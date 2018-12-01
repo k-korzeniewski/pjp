@@ -1,5 +1,5 @@
 from Service.Exceptions import NoneContextException
-from ApplicationContext import ApplicationContext
+import ApplicationContext
 import urllib.request
 
 
