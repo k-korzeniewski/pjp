@@ -1,5 +1,7 @@
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QWidget, QHBoxLayout, QPushButton, QDialog, QVBoxLayout, QPlainTextEdit
+from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QPushButton, QDialog, QVBoxLayout, QPlainTextEdit, QTabWidget,
+                             QGridLayout,QLabel,QLineEdit)
+
 from ApplicationContext import ApplicationContext
 
 """
@@ -80,7 +82,29 @@ class SettingsDialog(QDialog):
         self.init_ui()
 
     def init_ui(self):
+        # Tab init:
+        tabs = QTabWidget()
+        driver_tab = QWidget()
+        image_tab = QWidget()
+
+        tabs.addTab(driver_tab, "Driver")
+        tabs.addTab(image_tab, "Image")
+
+        # Driver tab:
+        driver_tab_layout = QGridLayout()
+        driver_tab_layout.addWidget(QLabel("Driver path: "),0,0)
+        driver_path_input = QLineEdit(ApplicationContext.driver_context.driver_path)
+        driver_tab_layout.addWidget(driver_path_input,0,1)
+        driver_tab.setLayout(driver_tab_layout)
+
+        # Image Tab:
+
+        # Main Layout
+
         main_layout = QVBoxLayout()
+
+        # Buttons:
+
         button_layout = QHBoxLayout()
 
         close_button = QPushButton('Close', self)
@@ -89,7 +113,9 @@ class SettingsDialog(QDialog):
         save_button = QPushButton('Save', self)
         button_layout.addWidget(save_button)
 
-        main_layout.addChildLayout(button_layout)
+        # Add components do layout ( order -> first add on top )
+        main_layout.addWidget(tabs)
+        main_layout.addLayout(button_layout)
         self.setLayout(main_layout)
 
 # -----------------------------------------------------------------------------------
