@@ -1,11 +1,13 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QPushButton, QDialog, QVBoxLayout, QPlainTextEdit
-
 from ApplicationContext import ApplicationContext
+
+"""
+    All UI components 
+"""
 
 
 ## Menu on main window
-
 
 class Menu(QWidget):
     def __init__(self):

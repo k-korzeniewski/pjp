@@ -1,16 +1,16 @@
 from Service.Exceptions import NoneContextException
-import ApplicationContext
 import urllib.request
 
 
 class ImageService:
-    def __init__(self, image_context):
+    def __init__(self, image_context, driver):
         if image_context is None:
             raise NoneContextException("Image Context must be provided")  # if context is null then raise error
         self.context = image_context
+        self.driver = driver
 
     def fetch_images(self, url):
-        driver = ApplicationContext.driver.get_driver(url= url)
+        driver = self.driver.get_driver(url=url)
         uri = []
         r = driver.find_elements_by_tag_name('img')
         for v in r:
