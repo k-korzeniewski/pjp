@@ -1,17 +1,12 @@
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QPushButton
-from Service.Image import ImageService, ImageContext
 from PyQt5.QtCore import pyqtSlot
+from ApplicationContext import ApplicationContext
 
 
 class Menu(QWidget):
     def __init__(self):
         super().__init__()
         self.init_ui()
-
-        image_context = ImageContext
-        image_context.save_path = "/Users/kamilkorzeniewski/imgs"
-
-        self.image_service = ImageService(image_context)
 
     def init_ui(self):
         layout = QHBoxLayout()
@@ -31,4 +26,4 @@ class Menu(QWidget):
     @pyqtSlot()
     def start_button_handler(self):
         print("Feching data from ...")
-        self.image_service.fetch_images("https://www.wp.pl")
+        ApplicationContext.image_service.fetch_images("https://www.wp.pl")

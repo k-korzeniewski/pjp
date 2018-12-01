@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QVBoxLayout, QWidget
 from UI.Menu import Menu
+from UI.UrlInputBox import UrlInputBox
 
 
 class Window(QMainWindow):
@@ -15,6 +16,7 @@ class Window(QMainWindow):
 
         window_layout = QVBoxLayout() # Here can be added new QWidgets to main window
         window_layout.addWidget(Menu())
+        window_layout.addWidget(UrlInputBox())
 
         central_widget = QWidget() # Helper object to parse window_layout to QWidget
         central_widget.setLayout(window_layout)

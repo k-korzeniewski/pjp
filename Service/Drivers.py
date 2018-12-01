@@ -16,6 +16,7 @@ class ChromeDriver:
 
         self.driver = webdriver.Chrome(executable_path=driver_context.driver_path,
                                        chrome_options=self.options, desired_capabilities=self.capabilities)
+
     def get_driver(self, url) -> WebDriver:
         self.driver.get(url)
         return self.driver
