@@ -1,5 +1,6 @@
 from Service.Exceptions import NoneContextException
 import urllib.request
+import os
 
 
 class ImageService:
@@ -8,6 +9,9 @@ class ImageService:
             raise NoneContextException("Image Context must be provided")  # if context is null then raise error
         self.context = image_context
         self.driver = driver
+
+        if not os.path.exists(self.context.save_path):
+            os.makedirs(self.context.save_path)
 
     def fetch_images(self, url):
         driver = self.driver.get_driver(url=url)
