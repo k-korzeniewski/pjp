@@ -19,9 +19,11 @@ class ImageService:
         r = driver.find_elements_by_tag_name('img')
         for v in r:
             src = v.get_attribute("src")
+            print(src)
             uri.append(src)
             pos = len(src) - src[::-1].index('/')
-            urllib.request.urlretrieve(src, "/".join([self.context.save_path, src[pos:]]))
+            if src[pos::] and src[pos::].strip():
+                 urllib.request.urlretrieve(src,self.context.save_path+'/'+src[pos::])
 
 
 class ImageContext:

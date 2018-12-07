@@ -42,5 +42,5 @@ class ApplicationContext:
     @classmethod
     def update_links(cls, links):
         cls.link_list.clear()
-        cls.link_list.append(links)
+        cls.link_list = links
         print("Link updated")
