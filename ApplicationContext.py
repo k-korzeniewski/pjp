@@ -12,9 +12,9 @@ class ApplicationContext:
     # Application:
 
     link_list = []
+    service_settings = {'images': True, 'sentences': True}
 
     # UI
-
     url_inputbox_default_text = "Paste here links -> each in own line "
 
     # Driver:

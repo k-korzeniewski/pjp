@@ -6,6 +6,7 @@ from ApplicationContext import ApplicationContext
 from Service.Drivers import DriverContext
 from Service.Image import ImageContext
 from PyQt5.QtWidgets import QMessageBox
+from Service.ServiceManager import SerivceManager
 import logging
 import os
 
@@ -41,13 +42,8 @@ class Menu(QWidget):
 
     @pyqtSlot()
     def start_button_handler(self):
-        link_list = ApplicationContext.link_list
-        sentences = []
-        for url in link_list:
-            print("Start fetching data from : %s", url)
-            ApplicationContext.image_service.fetch_images(url)
-            sentences.append(ApplicationContext.find_sentence_service.find_sentce_with_word(url))
-        print(sentences)
+        SerivceManager.start_services()
+
     @pyqtSlot()
     def show_settings_dialog(self):
         print("Open settings dialog")
