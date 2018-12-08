@@ -15,6 +15,7 @@ import os
 
 logger = logging.getLogger('Components')
 
+
 ## Menu on main window
 
 class Menu(QWidget):
@@ -41,10 +42,12 @@ class Menu(QWidget):
     @pyqtSlot()
     def start_button_handler(self):
         link_list = ApplicationContext.link_list
+        sentences = []
         for url in link_list:
-            print("Start fetching data from : %s",url)
+            print("Start fetching data from : %s", url)
             ApplicationContext.image_service.fetch_images(url)
-
+            sentences.append(ApplicationContext.find_sentence_service.find_sentce_with_word(url))
+        print(sentences)
     @pyqtSlot()
     def show_settings_dialog(self):
         print("Open settings dialog")
@@ -152,13 +155,13 @@ class SettingsDialog(QDialog):
         except Exception:
             QMessageBox.critical(self, "Driver", "Driver path is wrong")
         try:
-            if(os.path.isdir(self.image_path_input)):
+            if (os.path.isdir(self.image_path_input)):
                 image_context = ImageContext()
                 image_context.save_path = self.image_path_input.text()
                 ApplicationContext.set_image_context(image_context)
                 print("Settings saved ;)")
             else:
-                QMessageBox.critical(self,"Image","Image path is wrong !")
+                QMessageBox.critical(self, "Image", "Image path is wrong !")
         except Exception:
             QMessageBox.critical(self, "Image", "Image path is wrong !")
 # -----------------------------------------------------------------------------------

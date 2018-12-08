@@ -31,6 +31,7 @@ class ApplicationContext:
 
     # FindSentence Service
     find_sentence_context = FindSentenceContext()
+    find_sentence_context.word_list = ['tutorial']
     find_sentence_service = FindSentenceService(find_sentece_context=find_sentence_context, driver=driver)
 
     @classmethod
