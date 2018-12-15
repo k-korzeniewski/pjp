@@ -16,4 +16,13 @@ class SerivceManager:
             for url in link_list:
                 print("Start fetching sentences from : %s", url)
                 sentences.append(ApplicationContext.find_sentence_service.find_sentce_with_word(url))
-        print(sentences)
+            print(sentences)
+        if serivces_settings['paragraphs']:
+            elements = []
+            for url in link_list:
+                print("Start fetching paragraphs from : %s", url)
+                result = ApplicationContext.find_sentence_service.find_paragraph_with_word(url)
+                for e in result:
+                    elements.append(e)
+            for e in elements:
+                print(e)

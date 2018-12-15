@@ -23,6 +23,25 @@ class FindSentenceService:
                     result.remove(sentence)
         return result
 
+    def find_paragraph_with_word(self, url) -> list:
+        driver = self.driver.get_driver(url=url)
+        elements = []
+        result = []
+
+        for word in self.context.word_list:
+            for i in range(1, 6):
+                try:
+                    print(i)
+                    xpath = "//h{1}[contains(text(),'{0}')]/parent::*".format(word, i)
+                    body = driver.find_element_by_xpath(xpath).text
+                    elements.append(body)
+                except Exception:
+                    print("Cant get some header.")
+
+        for e in elements:
+            result.append(e)
+        return result
+
 
 class FindSentenceContext:
 

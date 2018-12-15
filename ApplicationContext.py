@@ -10,13 +10,11 @@ from Service.FindSentence import FindSentenceService, FindSentenceContext
 
 class ApplicationContext:
     # Application:
-
     link_list = []
-    service_settings = {'images': True, 'sentences': True}
-
+    service_settings = {'images': False, 'sentences': False, 'paragraphs': True, "url_from_file":False}
+    urls_file = "/User/kamilkorzeniewski/"
     # UI
     url_inputbox_default_text = "Paste here links -> each in own line "
-
     # Driver:
     driver_context = DriverContext()
     driver_context.driver_path = "/usr/local/chromedriver/chromedriver-Darwin"
@@ -31,7 +29,7 @@ class ApplicationContext:
 
     # FindSentence Service
     find_sentence_context = FindSentenceContext()
-    find_sentence_context.word_list = ['tutorial']
+    find_sentence_context.word_list = ['Locating']
     find_sentence_service = FindSentenceService(find_sentece_context=find_sentence_context, driver=driver)
 
     @classmethod
@@ -54,5 +52,17 @@ class ApplicationContext:
     @classmethod
     def update_links(cls, links):
         cls.link_list.clear()
+        if cls.service_settings['url_from_file']:
+            urls = cls.load_urls_from_file()
+            cls.link_list.append(urls)
         cls.link_list = links
         print("Link updated")
+
+    @classmethod
+    def load_urls_from_file(cls) -> list:
+        path = ApplicationContext.urls_file;
+        file = open(path, "r")
+        result = []
+        for line in file.readlines():
+            result.append(line)
+        return result

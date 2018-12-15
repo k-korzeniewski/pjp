@@ -1,12 +1,13 @@
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QPushButton, QDialog, QVBoxLayout, QPlainTextEdit, QTabWidget,
-                             QGridLayout, QLabel, QLineEdit)
+                             QGridLayout, QLabel, QLineEdit, QCheckBox)
 
 from ApplicationContext import ApplicationContext
 from Service.Drivers import DriverContext
 from Service.Image import ImageContext
 from PyQt5.QtWidgets import QMessageBox
 from Service.ServiceManager import SerivceManager
+from PyQt5 import QtCore
 import logging
 import os
 
@@ -72,6 +73,7 @@ class UrlInputBox(QWidget):
 
         self.setLayout(layout)
 
+    @pyqtSlot()
     def text_change_handle(self):
         links = self.text_edit.toPlainText().split('\n')
         ApplicationContext.update_links(links=links)
@@ -90,9 +92,12 @@ class SettingsDialog(QDialog):
 
     def init_ui(self):
         # Tab init:
+        general = QTabWidget()
         tabs = QTabWidget()
         driver_tab = QWidget()
         image_tab = QWidget()
+
+        general.setLayout(self.general_tab_init())
 
         # Set tabs layout:
         driver_tab.setLayout(self.driver_tab_init())
@@ -101,6 +106,7 @@ class SettingsDialog(QDialog):
         # Add all tabs to one widget:
         tabs.addTab(driver_tab, "Driver")
         tabs.addTab(image_tab, "Image")
+        tabs.addTab(general, "General")
 
         main_layout = QVBoxLayout()
 
@@ -109,6 +115,27 @@ class SettingsDialog(QDialog):
         main_layout.addLayout(self.buttons_init())
 
         self.setLayout(main_layout)
+
+    def general_tab_init(self) -> QGridLayout:
+        general_tab_layout = QGridLayout()
+
+        self.images_checkbox = QCheckBox('Images')
+        self.sentences_checkbox = QCheckBox('Sentences')
+        self.paragraphs_checkbox = QCheckBox('Paragraphs')
+        self.load_url_from_file = QCheckBox('Load url from file:')
+        self.images_checkbox.stateChanged.connect(lambda val: self.checkbox_handler('images', val))
+        self.sentences_checkbox.stateChanged.connect(lambda val: self.checkbox_handler('sentences', val))
+        self.paragraphs_checkbox.stateChanged.connect(lambda val: self.checkbox_handler('paragraphs', val))
+        self.load_url_from_file.stateChanged.connect(lambda val: self.checkbox_handler('url_from_file'))
+
+        self.urls_file = QPlainTextEdit()
+
+        general_tab_layout.addWidget(self.images_checkbox, 0, 1)
+        general_tab_layout.addWidget(self.sentences_checkbox, 0, 2)
+        general_tab_layout.addWidget(self.images_checkbox, 0, 3)
+        general_tab_layout.addWidget(self.load_url_from_file, 0, 4)
+
+        return general_tab_layout
 
     def driver_tab_init(self) -> QGridLayout:
 
@@ -142,6 +169,7 @@ class SettingsDialog(QDialog):
         button_layout.addWidget(save_button)
         return button_layout
 
+    @pyqtSlot()
     def save_button_handler(self):
         try:
             driver_context = DriverContext()
@@ -150,8 +178,9 @@ class SettingsDialog(QDialog):
             print("Settings saved ;)")
         except Exception:
             QMessageBox.critical(self, "Driver", "Driver path is wrong")
+
         try:
-            if (os.path.isdir(self.image_path_input)):
+            if os.path.isdir(self.image_path_input):
                 image_context = ImageContext()
                 image_context.save_path = self.image_path_input.text()
                 ApplicationContext.set_image_context(image_context)
@@ -160,4 +189,17 @@ class SettingsDialog(QDialog):
                 QMessageBox.critical(self, "Image", "Image path is wrong !")
         except Exception:
             QMessageBox.critical(self, "Image", "Image path is wrong !")
-# -----------------------------------------------------------------------------------
+
+        try:
+            if os.path.isfile(self.urls_file.toPlainText()):
+                ApplicationContext.urls_file = self.urls_file.toPlainText()
+        except Exception:
+            QMessageBox.critical(self, "General", "Urls file path is wrong!")
+
+    @pyqtSlot()
+    def checkbox_handler(self, service, state):
+        if state == QtCore.Qt.Checked:
+            ApplicationContext.service_settings[service] = True
+        else:
+            ApplicationContext.service_settings[service] = False
+# ----------------------------------------------------------------------------------
