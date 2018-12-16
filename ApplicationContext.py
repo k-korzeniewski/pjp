@@ -11,8 +11,11 @@ from Service.FindSentence import FindSentenceService, FindSentenceContext
 class ApplicationContext:
     # Application:
     link_list = []
-    service_settings = {'images': False, 'sentences': False, 'paragraphs': True, "url_from_file":False}
-    urls_file = "/User/kamilkorzeniewski/"
+    service_settings = {'images': False, 'sentences': False, 'paragraphs': True,
+                        "url_from_file": False, "save_to_file": True}
+    urls_file = "/User/kamilkorzeniewski/"  # Loading urls from that file
+    result_file = "/User/kamilkorzniewski/"  # Saving result in this file
+
     # UI
     url_inputbox_default_text = "Paste here links -> each in own line "
     # Driver:
