@@ -1,6 +1,7 @@
 from Service.Drivers import DriverContext, ChromeDriver
 from Service.Image import ImageContext, ImageService
 from Service.FindSentence import FindSentenceService, FindSentenceContext
+from Service.TableToCsv import TableToCsvService, TableToCsvContext
 
 """
     This class is holding all settings and service instances.
@@ -13,8 +14,8 @@ class ApplicationContext:
     link_list = []
     service_settings = {'images': False, 'sentences': False, 'paragraphs': True,
                         "url_from_file": False, "save_to_file": True}
-    urls_file = "/User/kamilkorzeniewski/"  # Loading urls from that file
-    result_file = "/User/kamilkorzniewski/"  # Saving result in this file
+    urls_file = "/Users/kamilkorzeniewski/urls.txt"  # Loading urls from that file
+    result_file = "/Users/kamilkorzeniewski/results.txt"  # Saving result in this file
 
     # UI
     url_inputbox_default_text = "Paste here links -> each in own line "
@@ -32,8 +33,12 @@ class ApplicationContext:
 
     # FindSentence Service
     find_sentence_context = FindSentenceContext()
-    find_sentence_context.word_list = ['Locating']
+    find_sentence_context.word_list = ['Java']
     find_sentence_service = FindSentenceService(find_sentece_context=find_sentence_context, driver=driver)
+
+    # table to csv service
+    table_to_csv_context = TableToCsvContext()
+    table_to_csv_service = TableToCsvService(table_to_csv_context, driver)
 
     @classmethod
     def set_find_sentence_context(cls, context):
@@ -51,21 +56,13 @@ class ApplicationContext:
         ApplicationContext.image_context = context
         ApplicationContext.image_service = ImageService(image_context=cls.image_context,
                                                         driver=cls.driver)
+    @classmethod
+    def set_table_to_csv_context(cls, context):
+        ApplicationContext.table_to_csv_context = context
+        ApplicationContext.table_to_csv_service = TableToCsvService(table_to_csv_context=cls.table_to_csv_context,
+                                                                    driver=cls.driver)
 
     @classmethod
     def update_links(cls, links):
         cls.link_list.clear()
-        if cls.service_settings['url_from_file']:
-            urls = cls.load_urls_from_file()
-            cls.link_list.append(urls)
         cls.link_list = links
-        print("Link updated")
-
-    @classmethod
-    def load_urls_from_file(cls) -> list:
-        path = ApplicationContext.urls_file;
-        file = open(path, "r")
-        result = []
-        for line in file.readlines():
-            result.append(line)
-        return result

@@ -22,9 +22,10 @@ class SettingsDialog(QDialog):
         tabs = QTabWidget()
         driver_tab = QWidget()
         image_tab = QWidget()
+        files = QWidget()
 
         general.setLayout(self.general_tab_init())
-
+        files.setLayout(self.files_tab_init())
         # Set tabs layout:
         driver_tab.setLayout(self.driver_tab_init())
         image_tab.setLayout(self.image_tab_init())
@@ -33,7 +34,7 @@ class SettingsDialog(QDialog):
         tabs.addTab(driver_tab, "Driver")
         tabs.addTab(image_tab, "Image")
         tabs.addTab(general, "General")
-
+        tabs.addTab(files, "Files")
         main_layout = QVBoxLayout()
 
         # Add components do layout ( order -> first add on top )
@@ -54,14 +55,26 @@ class SettingsDialog(QDialog):
         self.paragraphs_checkbox.stateChanged.connect(lambda val: self.checkbox_handler('paragraphs', val))
         self.load_url_from_file.stateChanged.connect(lambda val: self.checkbox_handler('url_from_file', val))
 
-        self.urls_file = QLineEdit()
-
         general_tab_layout.addWidget(self.images_checkbox, 0, 1)
         general_tab_layout.addWidget(self.sentences_checkbox, 0, 2)
         general_tab_layout.addWidget(self.images_checkbox, 0, 3)
         general_tab_layout.addWidget(self.load_url_from_file, 0, 4)
-
         return general_tab_layout
+
+    def files_tab_init(self) -> QGridLayout:
+        files_tab_layout = QGridLayout()
+
+        self.urls_file = QLineEdit()
+        self.urls_file.setText(ApplicationContext.urls_file)
+
+        self.save_result_file_path = QLineEdit()
+        self.save_result_file_path.setText(ApplicationContext.result_file)
+
+        files_tab_layout.addWidget(QLabel("Urls file : "), 0, 0)
+        files_tab_layout.addWidget(self.urls_file, 0, 1)
+        files_tab_layout.addWidget(QLabel("Save file: "), 1, 0)
+        files_tab_layout.addWidget(self.save_result_file_path, 1, 1)
+        return files_tab_layout
 
     def driver_tab_init(self) -> QGridLayout:
 
@@ -114,7 +127,6 @@ class SettingsDialog(QDialog):
             print("Settings saved ;)")
         except Exception:
             QMessageBox.critical(self, "Driver", "Driver path is wrong")
-
         try:
             if os.path.isdir(self.image_path_input.text()):
                 image_context = ImageContext()
@@ -128,9 +140,19 @@ class SettingsDialog(QDialog):
             print(detail)
 
         try:
-            if os.path.isfile(self.urls_file.toPlainText()):
+            if os.path.isfile(self.urls_file.text()):
                 ApplicationContext.urls_file = self.urls_file.text()
             else:
-                QMessageBox.critical(self, "General", "Urls file path is wrong!")
+                QMessageBox.critical(self, "Files", "Urls file path is wrong!")
         except Exception:
-            QMessageBox.critical(self, "General", "Urls file path is wrong!")
+            QMessageBox.critical(self, "Files", "Urls file path is wrong!")
+
+        try:
+            if os.path.isfile(self.save_result_file_path.text()):
+                ApplicationContext.result_file = self.save_result_file_path.text()
+            else:
+                QMessageBox.critical(self, "Files", "Save file path is wrong!")
+        except Exception:
+            QMessageBox.critical(self, "Files", "Save file path is wrong!")
+
+
