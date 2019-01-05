@@ -1,6 +1,9 @@
 class ApplicationContext:
     default_driver_path = "/usr/local/chromedriver/chromedriver-Darwin"
     default_image_save_path = "/Users/kamilkorzeniewski/imgs"
+    default_csv_output_path = "/User/kamilkorzeniewski/csv"
+    default_text_output_path = "/User/kamilkorzeniewski/text"
+    text_output_path = default_text_output_path
     link_list = []
 
     @classmethod

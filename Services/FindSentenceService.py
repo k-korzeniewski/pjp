@@ -8,7 +8,8 @@ class FindSentenceService(Service):
     def __init__(self):
         super().__init__(FindSentenceServiceContext())
 
-    def get_instance(self):
+    @staticmethod
+    def get_instance():
         if FindSentenceService.__instance is None:
             FindSentenceService.__instance = FindSentenceService()
         return FindSentenceService.__instance

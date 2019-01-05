@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QDialog
 from UI.Design import Ui_MainWindow
 from Services.ServicesManager import Manager
 from UI.SettingsDesign import Ui_Dialog
-
+from UI.SettingsController import SettingsController
 
 class Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -32,5 +32,6 @@ class Window(QMainWindow, Ui_MainWindow):
         dialog_ui = Ui_Dialog()
         dialog = QDialog()
         dialog_ui.setupUi(dialog)
+        SettingsController(dialog_ui)
         dialog.exec_()
         print("Settings button clicked")

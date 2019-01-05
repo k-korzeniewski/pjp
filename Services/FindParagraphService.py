@@ -7,8 +7,8 @@ class FindParagraphService(Service):
 
     def __init__(self):
         super().__init__(FindParagraphServiceContext())
-
-    def get_instance(self):
+    @staticmethod
+    def get_instance():
         if FindParagraphService.__instance is None:
             FindParagraphService.__instance = FindParagraphService()
         return FindParagraphService.__instance
