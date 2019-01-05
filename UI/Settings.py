@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import QTabWidget, QWidget, QVBoxLayout, QGridLayout, QChec
     QMessageBox, QDialog, QHBoxLayout, QPushButton, QLabel
 
 from ApplicationContext import ApplicationContext
-from Service.Drivers import DriverContext
-from Service.Image import ImageContext
+from Services import ImageService
+from Utils import ChromeDriver
 
 
 class SettingsDialog(QDialog):
@@ -82,7 +82,7 @@ class SettingsDialog(QDialog):
         driver_tab_layout.addWidget(QLabel("Driver path: "), 0, 0)
 
         self.driver_path_input = QLineEdit()
-        self.driver_path_input.setText(ApplicationContext.driver_context.driver_path)
+        self.driver_path_input.setText(ChromeDriver.ChromeDriver.get_driver_path())
         driver_tab_layout.addWidget(self.driver_path_input, 0, 1)
 
         return driver_tab_layout
@@ -92,7 +92,7 @@ class SettingsDialog(QDialog):
         image_tab_layout.addWidget(QLabel("Images save path: "), 0, 0)
 
         self.image_path_input = QLineEdit()
-        self.image_path_input.setText(ApplicationContext.image_context.save_path)
+        self.image_path_input.setText(ImageService.ImageService.get_instance().context.values['save_path'])
         image_tab_layout.addWidget(self.image_path_input, 0, 1)
 
         return image_tab_layout
@@ -121,17 +121,16 @@ class SettingsDialog(QDialog):
 
     def save_settings(self):
         try:
-            driver_context = DriverContext()
-            driver_context.driver_path = self.driver_path_input.text()
-            ApplicationContext.set_driver_context(driver_context)
-            print("Settings saved ;)")
+            driver_path = self.driver_path_input.text()
+            ChromeDriver.ChromeDriver.set_driver_path(driver_path)
+
+            print("Driver settings saved ;)")
         except Exception:
             QMessageBox.critical(self, "Driver", "Driver path is wrong")
         try:
             if os.path.isdir(self.image_path_input.text()):
-                image_context = ImageContext()
-                image_context.save_path = self.image_path_input.text()
-                ApplicationContext.set_image_context(image_context)
+                image_save_path = self.image_path_input.text()
+                ImageService.ImageService.set_context(image_save_path)
                 print("Settings saved ;)")
             else:
                 QMessageBox.critical(self, "Image", "Image path is wrong !")
@@ -154,5 +153,3 @@ class SettingsDialog(QDialog):
                 QMessageBox.critical(self, "Files", "Save file path is wrong!")
         except Exception:
             QMessageBox.critical(self, "Files", "Save file path is wrong!")
-
-

@@ -1,31 +1,36 @@
-from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QVBoxLayout, QWidget
-from UI.Components import Menu, UrlInputBox
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QMainWindow, QDialog
+from UI.Design import Ui_MainWindow
+from Services.ServicesManager import Manager
+from UI.Settings_design import Ui_Dialog
 
 
-class Window(QMainWindow):
-
+class Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.init_ui()
+        self.setupUi(self)
+        self.setFixedSize(self.size())
+        self.button_handlers_setup()
 
-    def init_ui(self):
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle("Some title")
-        self.center()
+    def button_handlers_setup(self):
+        self.start_button.clicked.connect(self.start_button_handler)
+        self.close_button.clicked.connect(self.close_button_handler)
+        self.settings_button.clicked.connect(self.settings_button_handler)
 
-        window_layout = QVBoxLayout() # Here can be added new QWidgets to main window
-        window_layout.addWidget(Menu())
-        window_layout.addWidget(UrlInputBox())
+    @pyqtSlot()
+    def start_button_handler(self):
+        Manager.start_services()
+        print("Start button clicked")
 
-        central_widget = QWidget() # Helper object to parse window_layout to QWidget
-        central_widget.setLayout(window_layout)
+    @pyqtSlot()
+    def close_button_handler(self):
+        QMainWindow.close(self)
+        print("Close button clicked")
 
-        self.setCentralWidget(central_widget)
-
-        self.show()
-
-    def center(self):
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
+    @pyqtSlot()
+    def settings_button_handler(self):
+        dialog_ui = Ui_Dialog()
+        dialog = QDialog()
+        dialog_ui.setupUi(dialog)
+        dialog.exec_()
+        print("Settings button clicked")

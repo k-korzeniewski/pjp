@@ -3,8 +3,9 @@ import logging
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import (QWidget, QHBoxLayout, QPushButton, QPlainTextEdit)
 
+import ApplicationContext2
 from ApplicationContext import ApplicationContext
-from Service.ServiceManager import SerivceManager
+from Services.ServicesManager import Manager
 from UI.Settings import SettingsDialog
 
 """
@@ -39,7 +40,7 @@ class Menu(QWidget):
 
     @pyqtSlot()
     def start_button_handler(self):
-        SerivceManager.start_services()
+        Manager.start_services()
 
     @pyqtSlot()
     def show_settings_dialog(self):
@@ -72,8 +73,7 @@ class UrlInputBox(QWidget):
     @pyqtSlot()
     def text_change_handle(self):
         links = self.text_edit.toPlainText().split('\n')
-        ApplicationContext.update_links(links=links)
-
+        ApplicationContext2.ApplicationContext.update_links(links=links)
 
 # -----------------------------------------------------------------------------------
 
