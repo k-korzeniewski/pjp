@@ -7,17 +7,17 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QDialog
-
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(402, 284)
+        Dialog.resize(540, 373)
         Dialog.setSizeGripEnabled(False)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tabs = QtWidgets.QTabWidget(Dialog)
+        self.tabs.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.tabs.setTabPosition(QtWidgets.QTabWidget.North)
         self.tabs.setObjectName("tabs")
         self.driver_tab = QtWidgets.QWidget()
         self.driver_tab.setObjectName("driver_tab")
@@ -43,6 +43,15 @@ class Ui_Dialog(object):
         self.image_output_path.setObjectName("image_output_path")
         self.horizontalLayout_4.addWidget(self.image_output_path)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.label_8 = QtWidgets.QLabel(self.files_tab)
+        self.label_8.setObjectName("label_8")
+        self.horizontalLayout_7.addWidget(self.label_8)
+        self.csv_output = QtWidgets.QLineEdit(self.files_tab)
+        self.csv_output.setObjectName("csv_output")
+        self.horizontalLayout_7.addWidget(self.csv_output)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_3 = QtWidgets.QLabel(self.files_tab)
@@ -53,6 +62,23 @@ class Ui_Dialog(object):
         self.horizontalLayout_3.addWidget(self.text_output_path)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.tabs.addTab(self.files_tab, "")
+        self.services_tab = QtWidgets.QWidget()
+        self.services_tab.setObjectName("services_tab")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.services_tab)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.checkBox = QtWidgets.QCheckBox(self.services_tab)
+        self.checkBox.setObjectName("checkBox")
+        self.horizontalLayout_5.addWidget(self.checkBox)
+        self.checkBox_2 = QtWidgets.QCheckBox(self.services_tab)
+        self.checkBox_2.setObjectName("checkBox_2")
+        self.horizontalLayout_5.addWidget(self.checkBox_2)
+        self.checkBox_3 = QtWidgets.QCheckBox(self.services_tab)
+        self.checkBox_3.setObjectName("checkBox_3")
+        self.horizontalLayout_5.addWidget(self.checkBox_3)
+        self.checkBox_4 = QtWidgets.QCheckBox(self.services_tab)
+        self.checkBox_4.setObjectName("checkBox_4")
+        self.horizontalLayout_5.addWidget(self.checkBox_4)
+        self.tabs.addTab(self.services_tab, "")
         self.verticalLayout.addWidget(self.tabs)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -65,17 +91,23 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
-        self.tabs.setCurrentIndex(0)
+        self.tabs.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label.setText(_translate("Dialog", "Driver path"))
-        self.tabs.setTabText(self.tabs.indexOf(self.driver_tab), _translate("Dialog", "Drver"))
+        self.tabs.setTabText(self.tabs.indexOf(self.driver_tab), _translate("Dialog", "Driver"))
         self.label_2.setText(_translate("Dialog", "Images output"))
+        self.label_8.setText(_translate("Dialog", "CSV output"))
         self.label_3.setText(_translate("Dialog", "Text output"))
         self.tabs.setTabText(self.tabs.indexOf(self.files_tab), _translate("Dialog", "Files"))
+        self.checkBox.setText(_translate("Dialog", "CSV"))
+        self.checkBox_2.setText(_translate("Dialog", "Paragraphs"))
+        self.checkBox_3.setText(_translate("Dialog", "Sentences"))
+        self.checkBox_4.setText(_translate("Dialog", "Images"))
+        self.tabs.setTabText(self.tabs.indexOf(self.services_tab), _translate("Dialog", "Services"))
         self.save_button.setText(_translate("Dialog", "Save"))
         self.close_button.setText(_translate("Dialog", "Close"))
 
