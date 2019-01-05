@@ -2,7 +2,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QDialog
 from UI.Design import Ui_MainWindow
 from Services.ServicesManager import Manager
-from UI.Settings_design import Ui_Dialog
+from UI.SettingsDesign import Ui_Dialog
 
 
 class Window(QMainWindow, Ui_MainWindow):
