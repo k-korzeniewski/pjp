@@ -1,7 +1,7 @@
 import logging
 
 from selenium.webdriver import DesiredCapabilities
-from selenium.webdriver.chrome import webdriver
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver
 
@@ -20,7 +20,6 @@ class ChromeDriver:
         return ChromeDriver.__instance
 
     def __init__(self):
-        logger = logging.info("ChromeDriver")
 
         self.options = Options()
         self.options.headless = True
@@ -32,7 +31,6 @@ class ChromeDriver:
 
         self.driver = webdriver.Chrome(executable_path=ChromeDriver.__driver_path,
                                        chrome_options=self.options, desired_capabilities=self.capabilities)
-        logger.info('Driver initialized ')
 
     def get_driver(self, url) -> WebDriver:
         self.driver.get(url)

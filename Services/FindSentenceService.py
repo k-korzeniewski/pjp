@@ -1,5 +1,5 @@
 from Services.Service import Service, ServiceContext
-from Utils import ChromeDriver
+from Utils.ChromeDriver import ChromeDriver
 
 
 class FindSentenceService(Service):
@@ -23,11 +23,9 @@ class FindSentenceService(Service):
             for word in self.context.values['word_list']:
                 if word in sentence:
                     result.append(sentence)
-        # Filter once again
-        for sentence in result:
-            for word in self.context.values["word_list"]:
-                if word not in sentence:
-                    result.remove(sentence)
+
+        print(result)
+        self.output.setText(self.output.toPlainText() + str(result).strip('[]') + '\n')
         return result
 
 

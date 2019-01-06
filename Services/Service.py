@@ -4,6 +4,7 @@ class ServiceContext:
 
 class Service:
     context = None
+    output = None
 
     def __init__(self, context: ServiceContext):
         if (context is None):
@@ -19,3 +20,6 @@ class Service:
 
     def set_context(self, context):
         self.context = context
+
+    def change_output(self,output):
+        self.output = output

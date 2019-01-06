@@ -63,3 +63,6 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "URL list"))
         self.label_3.setText(_translate("MainWindow", "OUTPUT"))
 
+    def get_result(self):
+        return self.result
+

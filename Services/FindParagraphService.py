@@ -1,5 +1,5 @@
 from Services.Service import Service, ServiceContext
-from Utils import ChromeDriver
+from Utils.ChromeDriver import ChromeDriver
 
 
 class FindParagraphService(Service):
@@ -7,6 +7,7 @@ class FindParagraphService(Service):
 
     def __init__(self):
         super().__init__(FindParagraphServiceContext())
+
     @staticmethod
     def get_instance():
         if FindParagraphService.__instance is None:
@@ -14,7 +15,7 @@ class FindParagraphService(Service):
         return FindParagraphService.__instance
 
     def start(self, url):
-        driver = ChromeDriver.get_instance().get_driver()
+        driver = ChromeDriver.get_instance().get_driver(url)
         elements = []
         result = []
 
@@ -29,7 +30,11 @@ class FindParagraphService(Service):
                     print("Cant get some header.")
 
         for e in elements:
-            result.append(e)
+            r = e.split("\n")
+            for x in r:
+                result.append(x)
+
+        self.output.setText(self.output.toPlainText() + str(result).strip('[]') + '\n')
         return result
 
 
