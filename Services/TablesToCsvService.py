@@ -3,7 +3,7 @@ import os
 from selenium.webdriver.common.by import By
 
 from Services.Service import Service, ServiceContext
-from ApplicationContext2 import ApplicationContext
+from ApplicationContext import ApplicationContext
 from Utils.ChromeDriver import ChromeDriver
 import csv
 import datetime
@@ -37,7 +37,7 @@ class TablesToCsvService(Service):
         path = '{}/{}'.format(self.context.values['save_path'], file_name)
         print("Try to write to file: " + file_name)
 
-        with open(path, 'w+',newline='') as f:
+        with open(path, 'w+', newline='') as f:
             wr = csv.writer(f)
             for table in result_tables:
                 for row in table.find_elements_by_css_selector('tr'):

@@ -7,7 +7,7 @@ from UI.Design import Ui_MainWindow
 from Services.ServicesManager import Manager
 from UI.SettingsDesign import Ui_Dialog
 from UI.SettingsController import SettingsController
-from ApplicationContext2 import ApplicationContext
+from ApplicationContext import ApplicationContext
 
 
 class Window(QMainWindow, Ui_MainWindow):

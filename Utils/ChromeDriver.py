@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver
 
-from ApplicationContext2 import ApplicationContext
+from ApplicationContext import ApplicationContext
 
 
 class ChromeDriver:

@@ -6,7 +6,7 @@ from Services.FindSentenceService import FindSentenceService
 from Services.ImageService import ImageService
 from Services.TablesToCsvService import TablesToCsvService
 from UI import SettingsDesign
-from ApplicationContext2 import ApplicationContext
+from ApplicationContext import ApplicationContext
 from Services.ServicesManager import Manager
 from Utils.ChromeDriver import ChromeDriver
 

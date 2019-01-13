@@ -4,7 +4,7 @@ import urllib.request
 
 from Services.Service import Service, ServiceContext
 from Utils.ChromeDriver import ChromeDriver
-from ApplicationContext2 import ApplicationContext
+from ApplicationContext import ApplicationContext
 import logging
 
 logger = logging.getLogger("ImageService")

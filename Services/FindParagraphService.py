@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+
 from Services.Service import Service, ServiceContext
 from Utils.ChromeDriver import ChromeDriver
 
@@ -27,15 +30,24 @@ class FindParagraphService(Service):
                     body = driver.find_element_by_xpath(xpath).text
                     elements.append(body)
                 except Exception:
-                    print("Cant get some header.")
-
+                    pass
         for e in elements:
             r = e.split("\n")
             for x in r:
                 result.append(x)
 
+        self.save_to_file(str(result))
         self.output.setText(self.output.toPlainText() + str(result).strip('[]') + '\n')
         return result
+
+    def save_to_file(self, lines):
+        if not os.path.exists(self.context.values['save_path']):
+            os.makedirs(self.context.values['save_path'])
+        now = datetime.now()
+        file_name = '{}-{}-{}.txt'.format(now.year, now.month, now.day)
+        path = '{}/{}'.format(self.context.values['save_path'], file_name)
+        with open(path, "a+") as file:
+            file.writelines(lines)
 
 
 class FindParagraphServiceContext(ServiceContext):

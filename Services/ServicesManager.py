@@ -1,5 +1,5 @@
 from Services.Service import Service
-from ApplicationContext2 import ApplicationContext
+from ApplicationContext import ApplicationContext
 
 
 class Manager:
