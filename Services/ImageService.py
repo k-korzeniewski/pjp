@@ -1,7 +1,6 @@
 import urllib
 import urllib.request
 
-
 from Services.Service import Service, ServiceContext
 from Utils.ChromeDriver import ChromeDriver
 from ApplicationContext import ApplicationContext
@@ -32,10 +31,12 @@ class ImageService(Service):
             uri.append(src)
             pos = len(src) - src[::-1].index('/')
             if src[pos::] and src[pos::].strip():
-                urllib.request.urlretrieve(src, self.context.values['save_path'] + '/' + src[pos::])
+                urllib.request.urlretrieve(src, self.context.get_values('save_path') + '/' + src[pos::])
+                print(self.context.get_values('save_path'))
 
 
 class ImageServiceContext(ServiceContext):
     def __init__(self):
+        super().__init__()
         logger.info("ImageServiceContext initialized")
-        self.values['save_path'] = ApplicationContext.default_image_save_path
+        self.set_values('save_path', ApplicationContext.default_image_save_path)

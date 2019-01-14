@@ -24,8 +24,9 @@ class Manager:
 
     @classmethod
     def start_services(cls):
+        links = cls.load_links()
         for service in cls.__services:
-            for link in ApplicationContext.link_list:
+            for link in links:
                 service.start(link)
 
     @classmethod
@@ -33,5 +34,15 @@ class Manager:
         return cls.__services
 
     @classmethod
-    def change_output(cls,output):
+    def change_output(cls, output):
         cls.__output = output
+
+    @classmethod
+    def load_links(cls):
+        links = list()
+        links.extend(ApplicationContext.link_list)
+        if ApplicationContext.load_links_from_file:
+            with open(ApplicationContext.link_input_path) as f:
+                lines = f.readlines()
+                links.extend(lines)
+        return links

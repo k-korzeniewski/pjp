@@ -32,8 +32,8 @@ class Window(QMainWindow, Ui_MainWindow):
 
     @pyqtSlot()
     def word_list_changed(self):
-        FindParagraphService.get_instance().context.values['word_list'] = self.word_list.toPlainText().splitlines()
-        FindSentenceService.get_instance().context.values['word_list'] = self.word_list.toPlainText().splitlines()
+        FindParagraphService.get_instance().context.set_values('word_list',self.word_list.toPlainText().splitlines())
+        FindSentenceService.get_instance().context.set_values('word_list',self.word_list.toPlainText().splitlines())
         print(self.word_list.toPlainText().splitlines())
 
     @pyqtSlot()

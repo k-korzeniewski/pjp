@@ -29,12 +29,12 @@ class TablesToCsvService(Service):
             if table.text:
                 result_tables.append(table)
                 print("TABLES ----------------")
-        if not os.path.exists(self.context.values['save_path']):
-            os.makedirs(ApplicationContext.default_csv_output_path)
+        if not os.path.exists(self.context.get_values('save_path')):
+            os.makedirs(self.context.get_values('save_path'))
 
         now = datetime.datetime.now()
         file_name = '{}-{}-{}.csv'.format(now.year, now.month, now.day)
-        path = '{}/{}'.format(self.context.values['save_path'], file_name)
+        path = '{}/{}'.format(self.context.get_values('save_path'), file_name)
         print("Try to write to file: " + file_name)
 
         with open(path, 'w+', newline='') as f:
@@ -47,4 +47,4 @@ class TablesToCsvService(Service):
 class TablesToCsvServiceContext(ServiceContext):
     def __init__(self) -> None:
         super().__init__()
-        self.values['save_path'] = ApplicationContext.default_csv_output_path
+        self.set_values('save_path', ApplicationContext.default_csv_output_path)

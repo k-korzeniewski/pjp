@@ -61,6 +61,15 @@ class Ui_Dialog(object):
         self.text_output_path.setObjectName("text_output_path")
         self.horizontalLayout_3.addWidget(self.text_output_path)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.label_4 = QtWidgets.QLabel(self.files_tab)
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout_8.addWidget(self.label_4)
+        self.links_path = QtWidgets.QLineEdit(self.files_tab)
+        self.links_path.setObjectName("links_path")
+        self.horizontalLayout_8.addWidget(self.links_path)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_8)
         self.tabs.addTab(self.files_tab, "")
         self.services_tab = QtWidgets.QWidget()
         self.services_tab.setObjectName("services_tab")
@@ -103,7 +112,7 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
-        self.tabs.setCurrentIndex(2)
+        self.tabs.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -114,6 +123,7 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "Images output"))
         self.label_8.setText(_translate("Dialog", "CSV output"))
         self.label_3.setText(_translate("Dialog", "Text output"))
+        self.label_4.setText(_translate("Dialog", "Links input"))
         self.tabs.setTabText(self.tabs.indexOf(self.files_tab), _translate("Dialog", "Files"))
         self.paragraph_checkbox.setText(_translate("Dialog", "Paragraphs"))
         self.sentence_checkbox.setText(_translate("Dialog", "Sentences"))

@@ -23,14 +23,18 @@ class SettingsController:
 
     def default_values(self):
         self.settings_design.driver_path.setText(ChromeDriver.get_driver_path())
-        self.settings_design.image_output_path.setText(ImageService.get_instance().context.values['save_path'])
-        self.settings_design.csv_output.setText(ApplicationContext.default_csv_output_path)  # Need to be changed !!!!
+        self.settings_design.image_output_path.setText(ImageService.get_instance().context.get_values('save_path'))
+        self.settings_design.csv_output.setText(
+            TablesToCsvService.get_instance().context.get_values('save_path'))
         self.settings_design.text_output_path.setText(ApplicationContext.text_output_path)
+        self.settings_design.links_path.setText(ApplicationContext.link_input_path)
 
         self.paragraph_checked = False
         self.sentence_checked = False
         self.image_checked = False
         self.csv_checked = False
+        self.load_links_from_file_checked = ApplicationContext.load_links_from_file
+        self.save_text_checked = ApplicationContext.save_text
 
         self.settings_design.save_button.clicked.connect(lambda: self.save_hander())
 
@@ -46,6 +50,14 @@ class SettingsController:
         if TablesToCsvService.get_instance() in Manager.get_services_list():
             self.settings_design.csv_checkbox.setChecked(True)
             self.csv_checked = True
+        if self.load_links_from_file_checked:
+            self.settings_design.load_links_checkbox.setChecked(True)
+        else:
+            self.settings_design.load_links_checkbox.setChecked(False)
+        if self.save_text_checked:
+            self.settings_design.save_result_checkbox.setChecked(True)
+        else:
+            self.settings_design.save_result_checkbox.setChecked(False)
 
     def driver_tab(self):
         self.driver_path = self.settings_design.driver_path.text()
@@ -57,6 +69,8 @@ class SettingsController:
         self.settings_design.sentence_checkbox.stateChanged.connect(lambda: self.sentence_checked_handler())
         self.settings_design.images_checkbox.stateChanged.connect(lambda: self.image_checked_handler())
         self.settings_design.csv_checkbox.stateChanged.connect(lambda: self.csv_checked_handler())
+        self.settings_design.save_result_checkbox.stateChanged.connect(lambda: self.save_text_handler())
+        self.settings_design.load_links_checkbox.stateChanged.connect(lambda: self.load_links_from_file_handler())
 
     @pyqtSlot()
     def paragraph_checked_handler(self):
@@ -70,8 +84,17 @@ class SettingsController:
     def image_checked_handler(self):
         self.image_checked = not self.image_checked
 
+    @pyqtSlot()
     def csv_checked_handler(self):
         self.csv_checked = not self.csv_checked
+
+    @pyqtSlot()
+    def load_links_from_file_handler(self):
+        self.load_links_from_file_checked = not self.load_links_from_file_checked
+
+    @pyqtSlot()
+    def save_text_handler(self):
+        self.save_text_checked = not self.save_text_checked
 
     @pyqtSlot()
     def save_hander(self):
@@ -103,8 +126,26 @@ class SettingsController:
             else:
                 if TablesToCsvService.get_instance() in Manager.get_services_list():
                     Manager.remove_service(TablesToCsvService.get_instance())
+        if self.load_links_from_file_checked:
+            ApplicationContext.load_links_from_file = True
+        else:
+            ApplicationContext.load_links_from_file = False
+        if self.save_text_checked:
+            ApplicationContext.save_text = True
+        else:
+            ApplicationContext.save_text = False
 
         ChromeDriver.set_driver_path(self.settings_design.driver_path.text())
-        ImageService.get_instance().context.values['save_path'] = self.settings_design.image_output_path.text()
-        TablesToCsvService.get_instance().context.values['save_path'] = self.settings_design.csv_output.text()
+
+        TablesToCsvService.get_instance().context.set_values(key='save_path',
+                                                             value=self.settings_design.csv_output.text())
+        FindParagraphService.get_instance().context.set_values(key='save_path',
+                                                               value=self.settings_design.text_output_path.text())
+        FindSentenceService.get_instance().context.set_values(key='save_path',
+                                                              value=self.settings_design.text_output_path.text())
+        ImageService.get_instance().context.set_values(key='save_path',
+                                                       value=self.settings_design.image_output_path.text())
+        ApplicationContext.text_output_path = self.settings_design.text_output_path.text()
+        ApplicationContext.link_input_path = self.settings_design.links_path.text()
+
         self.dialog.close()

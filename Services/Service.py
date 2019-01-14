@@ -1,5 +1,12 @@
 class ServiceContext:
-    values = dict()
+    def __init__(self):
+        self.values = dict()
+
+    def get_values(self, key):
+        return self.values[key]
+
+    def set_values(self, key, value):
+        self.values[key] = value
 
 
 class Service:
@@ -21,5 +28,5 @@ class Service:
     def set_context(self, context):
         self.context = context
 
-    def change_output(self,output):
+    def change_output(self, output):
         self.output = output
