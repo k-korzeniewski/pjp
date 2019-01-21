@@ -1,31 +1,58 @@
-from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QVBoxLayout, QWidget
-from UI.Components import Menu, UrlInputBox
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QMainWindow, QDialog
+
+from Services.FindParagraphService import FindParagraphService
+from Services.FindSentenceService import FindSentenceService
+from UI.Design import Ui_MainWindow
+from Services.ServicesManager import Manager
+from UI.SettingsDesign import Ui_Dialog
+from UI.SettingsController import SettingsController
+from ApplicationContext import ApplicationContext
 
 
-class Window(QMainWindow):
+class Window(QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
-        self.init_ui()
+        self.setupUi(self)
+        self.setFixedSize(self.size())
+        self.button_handlers_setup()
+        Manager.change_output(self.result)
 
-    def init_ui(self):
-        self.setGeometry(300, 300, 300, 200)
-        self.setWindowTitle("Some title")
-        self.center()
+    def button_handlers_setup(self):
+        self.start_button.clicked.connect(self.start_button_handler)
+        self.close_button.clicked.connect(self.close_button_handler)
+        self.settings_button.clicked.connect(self.settings_button_handler)
+        self.url_list.textChanged.connect(self.urls_changed)
+        self.word_list.textChanged.connect(self.word_list_changed)
 
-        window_layout = QVBoxLayout() # Here can be added new QWidgets to main window
-        window_layout.addWidget(Menu())
-        window_layout.addWidget(UrlInputBox())
+    # Execute when urls  changed ( excluding txt file with urls)
+    @pyqtSlot()
+    def urls_changed(self):
+        ApplicationContext.update_links(self.url_list.toPlainText().splitlines())
 
-        central_widget = QWidget() # Helper object to parse window_layout to QWidget
-        central_widget.setLayout(window_layout)
+    #Execute when word list changed
+    @pyqtSlot()
+    def word_list_changed(self):
+        FindParagraphService.get_instance().context.set_values('word_list', self.word_list.toPlainText().splitlines())
+        FindSentenceService.get_instance().context.set_values('word_list', self.word_list.toPlainText().splitlines())
+        print(self.word_list.toPlainText().splitlines())
 
-        self.setCentralWidget(central_widget)
+    @pyqtSlot()
+    def start_button_handler(self):
+        Manager.start_services()
+        print("Start button clicked")
 
-        self.show()
+    @pyqtSlot()
+    def close_button_handler(self):
+        QMainWindow.close(self)
+        print("Close button clicked")
 
-    def center(self):
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
+    @pyqtSlot()
+    def settings_button_handler(self):
+        dialog_ui = Ui_Dialog()
+        dialog = QDialog()
+        dialog_ui.setupUi(dialog)
+        SettingsController(dialog_ui, dialog)
+        dialog.exec_()
+        print("Settings button clicked")
