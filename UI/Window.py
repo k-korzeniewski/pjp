@@ -26,14 +26,16 @@ class Window(QMainWindow, Ui_MainWindow):
         self.url_list.textChanged.connect(self.urls_changed)
         self.word_list.textChanged.connect(self.word_list_changed)
 
+    # Execute when urls  changed ( excluding txt file with urls)
     @pyqtSlot()
     def urls_changed(self):
         ApplicationContext.update_links(self.url_list.toPlainText().splitlines())
 
+    #Execute when word list changed
     @pyqtSlot()
     def word_list_changed(self):
-        FindParagraphService.get_instance().context.set_values('word_list',self.word_list.toPlainText().splitlines())
-        FindSentenceService.get_instance().context.set_values('word_list',self.word_list.toPlainText().splitlines())
+        FindParagraphService.get_instance().context.set_values('word_list', self.word_list.toPlainText().splitlines())
+        FindSentenceService.get_instance().context.set_values('word_list', self.word_list.toPlainText().splitlines())
         print(self.word_list.toPlainText().splitlines())
 
     @pyqtSlot()

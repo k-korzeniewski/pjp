@@ -10,6 +10,10 @@ from ApplicationContext import ApplicationContext
 from Services.ServicesManager import Manager
 from Utils.ChromeDriver import ChromeDriver
 
+"""
+
+"""
+
 
 class SettingsController:
 
@@ -21,6 +25,9 @@ class SettingsController:
         self.default_values()
         self.check_box_handler()
 
+        self.settings_design.close_button.clicked.connect(lambda: self.close_button())
+
+    # Set default values to UI elements
     def default_values(self):
         self.settings_design.driver_path.setText(ChromeDriver.get_driver_path())
         self.settings_design.image_output_path.setText(ImageService.get_instance().context.get_values('save_path'))
@@ -96,6 +103,11 @@ class SettingsController:
     def save_text_handler(self):
         self.save_text_checked = not self.save_text_checked
 
+    @pyqtSlot()
+    def close_button(self):
+        self.dialog.close()
+
+    # execute on press save in settings dialog
     @pyqtSlot()
     def save_hander(self):
 
